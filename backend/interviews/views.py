@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import status
@@ -26,8 +27,6 @@ class StartInterviewView(APIView):
         difficulty = serializer.validated_data['difficulty']
         company = serializer.validated_data['company']
 
-        # Adjust if your User model stores skills differently
-        # (e.g. comma-separated string instead of a list/JSONField).
         skills = getattr(request.user, 'skills', None) or []
 
         session = InterviewSession.objects.create(
@@ -127,6 +126,20 @@ class CompleteInterviewView(APIView):
         session.status = 'completed'
         session.completed_at = timezone.now()
         session.save()
+
+        # --- streak + XP update ---
+        user = request.user
+        today = timezone.now().date()
+        if user.last_activity == today:
+            pass  # already counted today
+        elif user.last_activity == today - timedelta(days=1):
+            user.streak_days += 1
+        else:
+            user.streak_days = 1
+        user.last_activity = today
+        user.xp_points += int((session.total_score or 0) * 10)
+        user.save()
+        # --------------------------
 
         return Response(
             InterviewSessionSerializer(session).data, status=status.HTTP_200_OK
