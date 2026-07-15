@@ -1,2 +1,6 @@
 from django.urls import path
-urlpatterns = []
+from .views import DashboardStatsView
+
+urlpatterns = [
+    path('dashboard/', DashboardStatsView.as_view(), name='dashboard-stats'),
+]

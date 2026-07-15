@@ -2,10 +2,20 @@ import json
 from groq import Groq
 from django.conf import settings
 
-client = Groq(api_key=settings.GROQ_API_KEY)
+_client = None
+
+
+def _get_client():
+    global _client
+    if _client is None:
+        if not settings.GROQ_API_KEY:
+            raise RuntimeError("GROQ_API_KEY is not set in the environment")
+        _client = Groq(api_key=settings.GROQ_API_KEY)
+    return _client
 
 
 def generate_questions(role, difficulty, company, skills):
+    client = _get_client()
     skills_str = ', '.join(skills) if skills else 'general programming'
 
     company_context = {
@@ -56,6 +66,8 @@ Types must be one of: technical, behavioral, coding, hr"""
 
 
 def evaluate_answer(question_text, user_answer, role, difficulty):
+    client = _get_client()
+
     prompt = f"""You are a strict but fair technical interviewer evaluating a candidate's answer.
 
 Role: {role}

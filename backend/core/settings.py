@@ -97,6 +97,9 @@ CORS_ALLOWED_ORIGINS = [
     "https://next-round-tau.vercel.app",
 ]
 
+if DEBUG:
+    CORS_ALLOWED_ORIGINS.append("http://localhost:5173")
+print("CORS ALLOWED:", CORS_ALLOWED_ORIGINS)
 # DJANGO REST FRAMEWORK
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
