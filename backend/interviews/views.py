@@ -1,3 +1,5 @@
+import time
+import logging
 from datetime import timedelta
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -14,6 +16,8 @@ from .serializers import (
     QuestionSerializer,
 )
 from .ai_service import generate_questions, evaluate_answer
+
+logger = logging.getLogger(__name__)
 
 
 class StartInterviewView(APIView):
@@ -85,9 +89,15 @@ class SubmitAnswerView(APIView):
         )
 
         try:
+            start_time = time.time()
+
             eval_data = evaluate_answer(
                 question.text, answer_text, session.role, session.difficulty
             )
+
+            elapsed = time.time() - start_time
+            logger.info(f"evaluate_answer took {elapsed:.2f} seconds")
+
         except Exception as e:
             return Response(
                 {'detail': f'Failed to evaluate answer: {str(e)}'},
