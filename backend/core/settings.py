@@ -5,9 +5,19 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-CHANGE-ME-FOR-LOCAL-DEV-ONLY')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = ['*']  # tighten this after deployment (e.g. ['next-round-sp5e.onrender.com'])
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = 'django-insecure-local-dev-only'
+    else:
+        raise RuntimeError("SECRET_KEY environment variable must be set in production")
+
+ALLOWED_HOSTS = os.environ.get(
+    'ALLOWED_HOSTS',
+    'next-round-sp5e.onrender.com,localhost,127.0.0.1'
+).split(',')
 
 # APPLICATION DEFINITION
 INSTALLED_APPS = [
@@ -100,6 +110,7 @@ CORS_ALLOWED_ORIGINS = [
 if DEBUG:
     CORS_ALLOWED_ORIGINS.append("http://localhost:5173")
 print("CORS ALLOWED:", CORS_ALLOWED_ORIGINS)
+
 # DJANGO REST FRAMEWORK
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
