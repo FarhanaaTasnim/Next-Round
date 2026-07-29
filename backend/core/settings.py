@@ -4,7 +4,8 @@ from pathlib import Path
 from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+from dotenv import load_dotenv
+load_dotenv(BASE_DIR / '.env')
 # SECURITY
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 

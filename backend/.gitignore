@@ -1,0 +1,10 @@
+.env
+venv/
+__pycache__/
+*.pyc
+db.sqlite3
+staticfiles/
+media/
+test_eval.py
+output.txt
+output2.txt
