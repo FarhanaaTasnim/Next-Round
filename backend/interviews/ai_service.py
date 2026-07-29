@@ -1,6 +1,9 @@
 import json
+import logging
 from groq import Groq
 from django.conf import settings
+
+logger = logging.getLogger(__name__)
 
 _client = None
 
@@ -12,6 +15,53 @@ def _get_client():
             raise RuntimeError("GROQ_API_KEY is not set in the environment")
         _client = Groq(api_key=settings.GROQ_API_KEY)
     return _client
+
+
+def _parse_json_response(raw: str):
+    """Strip markdown fences (if present) and parse the JSON payload."""
+    raw = raw.strip()
+    if raw.startswith('```'):
+        raw = raw.split('```')[1]
+        if raw.startswith('json'):
+            raw = raw[4:]
+    return json.loads(raw.strip())
+
+
+def _call_with_retry(client, prompt, max_tokens, temperature, retries=1):
+    """
+    Call the Groq chat completion endpoint and parse the JSON response.
+    If parsing fails (truncated output, stray commentary, bad escaping),
+    retry with a stricter follow-up instruction appended to the prompt.
+    """
+    last_error = None
+    current_prompt = prompt
+
+    for attempt in range(retries + 1):
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{"role": "user", "content": current_prompt}],
+            max_tokens=max_tokens,
+            temperature=temperature,
+        )
+        raw = response.choices[0].message.content
+
+        try:
+            return _parse_json_response(raw)
+        except (json.JSONDecodeError, IndexError) as e:
+            last_error = e
+            logger.warning(
+                f"AI response parse failed on attempt {attempt + 1}/{retries + 1}: {e}"
+            )
+            current_prompt = (
+                prompt
+                + "\n\nIMPORTANT: Your previous response was not valid JSON. "
+                  "Return ONLY the JSON object/array, nothing else — no commentary, "
+                  "no markdown fences, no explanation."
+            )
+
+    raise RuntimeError(
+        f"AI returned unparseable output after {retries + 1} attempts: {last_error}"
+    )
 
 
 def generate_questions(role, difficulty, company, skills):
@@ -50,19 +100,7 @@ Return ONLY a valid JSON array, no extra text, no markdown:
 
 Types must be one of: technical, behavioral, coding, hr"""
 
-    response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[{"role": "user", "content": prompt}],
-        max_tokens=1500,
-        temperature=0.7,
-    )
-
-    raw = response.choices[0].message.content.strip()
-    if raw.startswith('```'):
-        raw = raw.split('```')[1]
-        if raw.startswith('json'):
-            raw = raw[4:]
-    return json.loads(raw.strip())
+    return _call_with_retry(client, prompt, max_tokens=1500, temperature=0.7)
 
 
 def evaluate_answer(question_text, user_answer, role, difficulty):
@@ -96,16 +134,4 @@ Problems is a list of specific issues (empty list if answer is good).
 correct_answer is a complete model answer.
 Tips are study recommendations based on weak points."""
 
-    response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[{"role": "user", "content": prompt}],
-        max_tokens=1000,
-        temperature=0.3,
-    )
-
-    raw = response.choices[0].message.content.strip()
-    if raw.startswith('```'):
-        raw = raw.split('```')[1]
-        if raw.startswith('json'):
-            raw = raw[4:]
-    return json.loads(raw.strip())
+    return _call_with_retry(client, prompt, max_tokens=1000, temperature=0.3)
