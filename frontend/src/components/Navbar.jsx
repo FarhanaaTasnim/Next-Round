@@ -25,7 +25,7 @@ export default function Navbar() {
                 New Interview
               </Link>
               <div className="w-px h-5 bg-rose-100 dark:bg-stone-800 mx-1 hidden sm:block" />
-              <span className="hidden sm:block text-sm text-stone-500 dark:text-stone-400">Hi, {user.username}</span>
+              <span className="hidden sm:block text-sm text-stone-500 dark:text-stone-400">{user.username}</span>
               <button
                 onClick={logout}
                 className="text-sm font-medium bg-rose-50 dark:bg-stone-800 hover:bg-rose-100 dark:hover:bg-stone-700 text-rose-600 dark:text-rose-400 px-4 py-2 rounded-full transition"
