@@ -260,7 +260,6 @@ To confirm the Groq-powered evaluation step isn't a UX bottleneck, `evaluate_ans
 
 ## 🗺 Roadmap
 
-- [ ] Persistent PostgreSQL database for production data durability
 - [ ] Resume-based question personalization (deeper use of parsed skills beyond prompt injection)
 - [ ] Video/audio mock interview mode
 - [ ] Company-specific interview question banks (curated, beyond prompt-only steering)
