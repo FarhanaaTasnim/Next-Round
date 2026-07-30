@@ -16,7 +16,7 @@ export default function Result() {
 
   if (!session) return (
     <Layout>
-      <div className="min-h-[70vh] flex items-center justify-center">
+      <div className="min-h-[70vh] flex items-center justify-center px-4">
         <p className="text-stone-500 dark:text-stone-400">Loading results...</p>
       </div>
     </Layout>
@@ -30,11 +30,11 @@ export default function Result() {
 
   return (
     <Layout>
-      <div className="max-w-3xl mx-auto p-6 space-y-6">
+      <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
         {/* Score card */}
-        <div className="bg-white dark:bg-stone-900 rounded-3xl p-8 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none text-center">
+        <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 sm:p-8 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none text-center">
           <p className="text-stone-500 dark:text-stone-400 mb-2">Interview Complete</p>
-          <div className={`text-6xl font-bold mb-2 ${
+          <div className={`text-5xl sm:text-6xl font-bold mb-2 ${
             avg >= 7 ? 'text-emerald-500' : avg >= 4 ? 'text-amber-500' : 'text-rose-500'
           }`}>
             {session.total_score ?? avg}
@@ -43,7 +43,7 @@ export default function Result() {
           <p className="text-stone-500 dark:text-stone-400 capitalize">
             {session.role} · {session.company} · {session.difficulty}
           </p>
-          <div className="flex gap-3 justify-center mt-6">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
             <button
               onClick={() => navigate('/setup')}
               className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full text-sm font-medium transition shadow-sm shadow-rose-200 dark:shadow-none"
@@ -62,8 +62,8 @@ export default function Result() {
         {/* Per-question breakdown */}
         <h2 className="font-display text-lg font-semibold text-stone-800 dark:text-stone-100">Question Breakdown</h2>
         {questions.map((q, i) => (
-          <div key={q.id} className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none space-y-3">
-            <div className="flex items-start justify-between gap-4">
+          <div key={q.id} className="bg-white dark:bg-stone-900 rounded-3xl p-4 sm:p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none space-y-3">
+            <div className="flex items-start justify-between gap-3">
               <p className="text-stone-800 dark:text-stone-100 font-medium">Q{i + 1}. {q.text}</p>
               {q.answer?.feedback && (
                 <span className={`shrink-0 text-lg font-bold ${

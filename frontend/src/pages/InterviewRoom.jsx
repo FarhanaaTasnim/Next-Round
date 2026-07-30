@@ -23,7 +23,7 @@ export default function InterviewRoom() {
 
   if (loading) return (
     <Layout>
-      <div className="min-h-[70vh] flex items-center justify-center">
+      <div className="min-h-[70vh] flex items-center justify-center px-4">
         <div className="text-center">
           <svg className="animate-spin h-10 w-10 text-rose-400 mx-auto mb-4" viewBox="0 0 24 24" fill="none">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
@@ -83,24 +83,24 @@ export default function InterviewRoom() {
         />
       </div>
 
-      <div className="max-w-3xl mx-auto p-6 space-y-6">
+      <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
         {/* Session meta */}
-        <div className="flex items-center justify-between">
-          <div>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
             <span className="text-rose-500 dark:text-rose-400 font-medium capitalize">{session?.company}</span>
-            <span className="text-stone-300 dark:text-stone-600 mx-2">·</span>
+            <span className="text-stone-300 dark:text-stone-600">·</span>
             <span className="text-stone-500 dark:text-stone-400 capitalize">{session?.role}</span>
-            <span className="text-stone-300 dark:text-stone-600 mx-2">·</span>
+            <span className="text-stone-300 dark:text-stone-600">·</span>
             <span className="text-stone-500 dark:text-stone-400 capitalize">{session?.difficulty}</span>
           </div>
-          <span className="text-stone-400 dark:text-stone-500 text-sm">
+          <span className="text-stone-400 dark:text-stone-500 text-sm shrink-0">
             {currentIndex + 1} / {questions.length}
           </span>
         </div>
 
         {/* Question */}
-        <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none">
-          <div className="flex items-center gap-2 mb-4">
+        <div className="bg-white dark:bg-stone-900 rounded-3xl p-5 sm:p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none">
+          <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className="bg-rose-500 text-white text-xs px-2 py-1 rounded-full">
               Q{currentIndex + 1}
             </span>
@@ -111,7 +111,7 @@ export default function InterviewRoom() {
               <span className="text-stone-400 dark:text-stone-500 text-xs">· {currentQuestion.topic}</span>
             )}
           </div>
-          <p className="text-stone-800 dark:text-stone-100 text-lg leading-relaxed">{currentQuestion?.text}</p>
+          <p className="text-stone-800 dark:text-stone-100 text-base sm:text-lg leading-relaxed">{currentQuestion?.text}</p>
         </div>
 
         {/* Answer area */}
@@ -122,7 +122,7 @@ export default function InterviewRoom() {
               onChange={(e) => setAnswer(e.target.value)}
               placeholder="Type your answer here..."
               rows={6}
-              className="w-full bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-100 rounded-2xl px-5 py-4 border border-rose-100 dark:border-stone-800 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-100 dark:focus:ring-rose-500/20 resize-none transition"
+              className="w-full bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-100 rounded-2xl px-4 sm:px-5 py-4 border border-rose-100 dark:border-stone-800 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-100 dark:focus:ring-rose-500/20 resize-none transition text-base"
             />
             <button
               onClick={handleSubmitAnswer}
@@ -145,10 +145,10 @@ export default function InterviewRoom() {
         {/* Feedback */}
         {feedback && (
           <div className="space-y-4">
-            <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none">
-              <div className="flex items-center justify-between mb-4">
+            <div className="bg-white dark:bg-stone-900 rounded-3xl p-5 sm:p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none">
+              <div className="flex items-center justify-between mb-4 gap-3">
                 <h3 className="font-display font-semibold text-lg text-stone-800 dark:text-stone-100">AI Feedback</h3>
-                <div className={`text-2xl font-bold ${
+                <div className={`text-2xl font-bold shrink-0 ${
                   feedback.score >= 7 ? 'text-emerald-500' :
                   feedback.score >= 4 ? 'text-amber-500' : 'text-rose-500'
                 }`}>

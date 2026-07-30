@@ -18,18 +18,18 @@ export default function Login() {
     else setError(result.error?.error || 'Login failed')
   }
 
-  const inputClass = "w-full bg-rose-50/50 dark:bg-stone-800 text-stone-800 dark:text-stone-100 rounded-xl px-4 py-3 border border-rose-100 dark:border-stone-700 focus:border-rose-400 dark:focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-100 dark:focus:ring-rose-500/20 transition"
+  const inputClass = "w-full bg-rose-50/50 dark:bg-stone-800 text-stone-800 dark:text-stone-100 rounded-xl px-4 py-3 border border-rose-100 dark:border-stone-700 focus:border-rose-400 dark:focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-100 dark:focus:ring-rose-500/20 transition text-base"
 
   return (
     <Layout>
-      <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
+      <div className="min-h-[80vh] flex items-center justify-center px-4 py-10 sm:py-12">
         <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <h1 className="font-display text-3xl font-bold text-stone-800 dark:text-stone-100">Welcome back</h1>
-            <p className="text-stone-500 dark:text-stone-400 mt-2">Sign in to keep your streak going</p>
+          <div className="text-center mb-6 sm:mb-8">
+            <h1 className="font-display text-2xl sm:text-3xl font-bold text-stone-800 dark:text-stone-100">Welcome back</h1>
+            <p className="text-stone-500 dark:text-stone-400 mt-2 text-sm sm:text-base">Sign in to keep your streak going</p>
           </div>
 
-          <div className="bg-white dark:bg-stone-900 rounded-3xl p-8 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none">
+          <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 sm:p-8 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="text-sm text-stone-500 dark:text-stone-400 mb-1 block">Email</label>

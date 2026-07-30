@@ -38,7 +38,7 @@ export default function History() {
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto px-6 py-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         <div className="mb-8">
           <h1 className="font-display text-2xl font-bold text-stone-800 dark:text-stone-100">
             Interview History
@@ -49,7 +49,7 @@ export default function History() {
         </div>
 
         {stats && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
             <StatCard label="Streak" value={`${stats.streak_days} 🔥`} />
             <StatCard label="XP" value={stats.xp_points} accent="purple" />
             <StatCard label="Interviews" value={stats.completed_interviews} accent="amber" />
@@ -57,7 +57,7 @@ export default function History() {
           </div>
         )}
 
-        <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none">
+        <div className="bg-white dark:bg-stone-900 rounded-3xl p-4 sm:p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none">
           {loading ? (
             <p className="text-stone-400 dark:text-stone-500 text-sm">Loading interview history...</p>
           ) : error ? (
@@ -73,19 +73,19 @@ export default function History() {
                   <button
                     key={s.id}
                     onClick={() => navigate(s.status === 'completed' ? `/result/${s.id}` : `/interview/${s.id}`)}
-                    className="w-full flex items-center justify-between bg-rose-50/60 dark:bg-stone-800 hover:bg-rose-100/70 dark:hover:bg-stone-700 rounded-2xl px-4 py-3 text-left transition"
+                    className="w-full flex items-center justify-between gap-3 bg-rose-50/60 dark:bg-stone-800 hover:bg-rose-100/70 dark:hover:bg-stone-700 rounded-2xl px-4 py-3 text-left transition"
                   >
-                    <div>
-                      <p className="font-medium capitalize text-stone-800 dark:text-stone-100">
+                    <div className="min-w-0">
+                      <p className="font-medium capitalize text-stone-800 dark:text-stone-100 truncate">
                         {s.role} · {s.company}
                       </p>
-                      <p className="text-stone-500 dark:text-stone-400 text-xs capitalize">
+                      <p className="text-stone-500 dark:text-stone-400 text-xs capitalize truncate">
                         {s.difficulty} · {s.status} · {s.question_count} questions
                         {s.completed_at && ` · ${new Date(s.completed_at).toLocaleDateString()}`}
                       </p>
                     </div>
                     {s.total_score != null && (
-                      <span className={`font-bold ${
+                      <span className={`font-bold shrink-0 ${
                         s.total_score >= 7 ? 'text-emerald-500' :
                         s.total_score >= 4 ? 'text-amber-500' : 'text-rose-500'
                       }`}>
@@ -97,7 +97,7 @@ export default function History() {
               </div>
 
               {totalPages > 1 && (
-                <div className="flex items-center justify-between mt-6 pt-4 border-t border-rose-100 dark:border-stone-800">
+                <div className="flex flex-wrap items-center justify-center sm:justify-between gap-3 mt-6 pt-4 border-t border-rose-100 dark:border-stone-800">
                   <button
                     onClick={() => loadHistory(page - 1)}
                     disabled={page <= 1}
@@ -105,7 +105,7 @@ export default function History() {
                   >
                     ← Previous
                   </button>
-                  <span className="text-xs text-stone-500 dark:text-stone-400">
+                  <span className="order-first sm:order-none w-full sm:w-auto text-center text-xs text-stone-500 dark:text-stone-400">
                     Page {page} of {totalPages}
                   </span>
                   <button

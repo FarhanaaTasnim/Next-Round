@@ -59,7 +59,7 @@ export default function InterviewSetup() {
             key={opt.value}
             type="button"
             onClick={() => setForm({ ...form, [field]: opt.value })}
-            className={`py-3 px-4 rounded-2xl text-sm font-medium border transition
+            className={`py-3 px-3 sm:px-4 rounded-2xl text-sm font-medium border transition text-center
               ${form[field] === opt.value
                 ? 'bg-rose-500 border-rose-500 text-white shadow-sm shadow-rose-200 dark:shadow-none'
                 : 'bg-rose-50/50 dark:bg-stone-800 border-rose-100 dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:border-rose-300 dark:hover:border-rose-400'
@@ -74,14 +74,14 @@ export default function InterviewSetup() {
 
   return (
     <Layout>
-      <div className="max-w-2xl mx-auto px-6 py-10">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         <div className="mb-8">
           <h1 className="font-display text-2xl font-bold text-stone-800 dark:text-stone-100">Start Interview</h1>
           <p className="text-stone-500 dark:text-stone-400 mt-1">Configure your mock interview session</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none space-y-6">
+          <div className="bg-white dark:bg-stone-900 rounded-3xl p-4 sm:p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none space-y-6">
             <SelectCard options={roles} field="role" label="Select role" />
             <SelectCard options={difficulties} field="difficulty" label="Select difficulty" />
             <SelectCard options={companies} field="company" label="Select company" />

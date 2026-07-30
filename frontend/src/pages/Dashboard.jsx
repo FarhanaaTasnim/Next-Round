@@ -19,7 +19,7 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto px-6 py-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         <div className="mb-8">
           <h1 className="font-display text-2xl font-bold text-stone-800 dark:text-stone-100">
             Hello, {user?.username} 
@@ -40,14 +40,14 @@ export default function Dashboard() {
           </div>
         ) : stats ? (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
               <StatCard label="Streak" value={`${stats.streak_days} 🔥`} />
               <StatCard label="XP" value={stats.xp_points} accent="purple" />
               <StatCard label="Interviews" value={stats.completed_interviews} accent="amber" />
               <StatCard label="Avg Score" value={`${stats.average_score}/10`} accent="emerald" />
             </div>
 
-            <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none">
+            <div className="bg-white dark:bg-stone-900 rounded-3xl p-4 sm:p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none">
               <h2 className="font-display text-lg font-semibold text-stone-800 dark:text-stone-100 mb-4">
                 Recent Interviews
               </h2>
@@ -61,14 +61,14 @@ export default function Dashboard() {
                     <button
                       key={s.id}
                       onClick={() => navigate(s.status === 'completed' ? `/result/${s.id}` : `/interview/${s.id}`)}
-                      className="w-full flex items-center justify-between bg-rose-50/60 dark:bg-stone-800 hover:bg-rose-100/70 dark:hover:bg-stone-700 rounded-2xl px-4 py-3 text-left transition"
+                      className="w-full flex items-center justify-between gap-3 bg-rose-50/60 dark:bg-stone-800 hover:bg-rose-100/70 dark:hover:bg-stone-700 rounded-2xl px-4 py-3 text-left transition"
                     >
-                      <div>
-                        <p className="font-medium capitalize text-stone-800 dark:text-stone-100">{s.role} · {s.company}</p>
-                        <p className="text-stone-500 dark:text-stone-400 text-xs capitalize">{s.difficulty} · {s.status}</p>
+                      <div className="min-w-0">
+                        <p className="font-medium capitalize text-stone-800 dark:text-stone-100 truncate">{s.role} · {s.company}</p>
+                        <p className="text-stone-500 dark:text-stone-400 text-xs capitalize truncate">{s.difficulty} · {s.status}</p>
                       </div>
                       {s.total_score != null && (
-                        <span className={`font-bold ${
+                        <span className={`font-bold shrink-0 ${
                           s.total_score >= 7 ? 'text-emerald-500' :
                           s.total_score >= 4 ? 'text-amber-500' : 'text-rose-500'
                         }`}>
