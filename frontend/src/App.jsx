@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import Home from './pages/Home'
 import Register from './pages/auth/Register'
 import Login from './pages/auth/Login'
 import Dashboard from './pages/Dashboard'
@@ -13,16 +14,19 @@ function PrivateRoute({ children }) {
 }
 
 export default function App() {
+  const { user } = useAuthStore()
+
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route path="/setup" element={<PrivateRoute><InterviewSetup /></PrivateRoute>} />
         <Route path="/interview/:sessionId" element={<PrivateRoute><InterviewRoom /></PrivateRoute>} />
         <Route path="/result/:sessionId" element={<PrivateRoute><Result /></PrivateRoute>} />
-        <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   )

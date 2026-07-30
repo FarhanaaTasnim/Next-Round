@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../api/axios'
+import Layout from '../components/Layout'
 
 const roles = [
   { value: 'backend', label: 'Backend Developer' },
@@ -28,9 +29,7 @@ const companies = [
 
 export default function InterviewSetup() {
   const navigate = useNavigate()
-  const [form, setForm] = useState({
-    role: '', difficulty: '', company: ''
-  })
+  const [form, setForm] = useState({ role: '', difficulty: '', company: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -53,17 +52,17 @@ export default function InterviewSetup() {
 
   const SelectCard = ({ options, field, label }) => (
     <div>
-      <p className="text-gray-400 text-sm mb-3">{label}</p>
+      <p className="text-stone-500 dark:text-stone-400 text-sm mb-3">{label}</p>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {options.map((opt) => (
           <button
             key={opt.value}
             type="button"
             onClick={() => setForm({ ...form, [field]: opt.value })}
-            className={`py-3 px-4 rounded-xl text-sm font-medium border transition
+            className={`py-3 px-4 rounded-2xl text-sm font-medium border transition
               ${form[field] === opt.value
-                ? 'bg-indigo-600 border-indigo-500 text-white'
-                : 'bg-gray-800 border-gray-700 text-gray-300 hover:border-indigo-500'
+                ? 'bg-rose-500 border-rose-500 text-white shadow-sm shadow-rose-200 dark:shadow-none'
+                : 'bg-rose-50/50 dark:bg-stone-800 border-rose-100 dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:border-rose-300 dark:hover:border-rose-400'
               }`}
           >
             {opt.label}
@@ -74,26 +73,26 @@ export default function InterviewSetup() {
   )
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-6">
-      <div className="max-w-2xl mx-auto">
+    <Layout>
+      <div className="max-w-2xl mx-auto px-6 py-10">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold">Start Interview</h1>
-          <p className="text-gray-400 mt-1">Configure your mock interview session</p>
+          <h1 className="font-display text-2xl font-bold text-stone-800 dark:text-stone-100">Start Interview</h1>
+          <p className="text-stone-500 dark:text-stone-400 mt-1">Configure your mock interview session</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="bg-gray-900 rounded-2xl p-6 border border-gray-800 space-y-6">
+          <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none space-y-6">
             <SelectCard options={roles} field="role" label="Select role" />
             <SelectCard options={difficulties} field="difficulty" label="Select difficulty" />
             <SelectCard options={companies} field="company" label="Select company" />
           </div>
 
-          {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+          {error && <p className="text-rose-500 dark:text-rose-400 text-sm text-center">{error}</p>}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-semibold py-4 rounded-xl transition text-lg"
+            className="w-full bg-rose-500 hover:bg-rose-600 disabled:opacity-50 text-white font-semibold py-4 rounded-2xl transition text-lg shadow-sm shadow-rose-200 dark:shadow-none"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -107,6 +106,6 @@ export default function InterviewSetup() {
           </button>
         </form>
       </div>
-    </div>
+    </Layout>
   )
 }

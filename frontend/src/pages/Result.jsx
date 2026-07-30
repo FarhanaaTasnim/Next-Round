@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import api from '../api/axios'
+import Layout from '../components/Layout'
 
 export default function Result() {
   const { sessionId } = useParams()
@@ -14,9 +15,11 @@ export default function Result() {
   }, [sessionId])
 
   if (!session) return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-      <p className="text-gray-400">Loading results...</p>
-    </div>
+    <Layout>
+      <div className="min-h-[70vh] flex items-center justify-center">
+        <p className="text-stone-500 dark:text-stone-400">Loading results...</p>
+      </div>
+    </Layout>
   )
 
   const questions = session.questions || []
@@ -26,30 +29,30 @@ export default function Result() {
     : 0
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-6">
-      <div className="max-w-3xl mx-auto space-y-6">
+    <Layout>
+      <div className="max-w-3xl mx-auto p-6 space-y-6">
         {/* Score card */}
-        <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800 text-center">
-          <p className="text-gray-400 mb-2">Interview Complete</p>
+        <div className="bg-white dark:bg-stone-900 rounded-3xl p-8 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none text-center">
+          <p className="text-stone-500 dark:text-stone-400 mb-2">Interview Complete</p>
           <div className={`text-6xl font-bold mb-2 ${
-            avg >= 7 ? 'text-green-400' : avg >= 4 ? 'text-yellow-400' : 'text-red-400'
+            avg >= 7 ? 'text-emerald-500' : avg >= 4 ? 'text-amber-500' : 'text-rose-500'
           }`}>
             {session.total_score ?? avg}
-            <span className="text-2xl text-gray-500">/10</span>
+            <span className="text-2xl text-stone-400 dark:text-stone-600">/10</span>
           </div>
-          <p className="text-gray-400 capitalize">
+          <p className="text-stone-500 dark:text-stone-400 capitalize">
             {session.role} · {session.company} · {session.difficulty}
           </p>
           <div className="flex gap-3 justify-center mt-6">
             <button
               onClick={() => navigate('/setup')}
-              className="bg-indigo-600 hover:bg-indigo-700 px-6 py-2 rounded-xl text-sm font-medium transition"
+              className="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full text-sm font-medium transition shadow-sm shadow-rose-200 dark:shadow-none"
             >
               New Interview
             </button>
             <button
               onClick={() => navigate('/dashboard')}
-              className="bg-gray-800 hover:bg-gray-700 px-6 py-2 rounded-xl text-sm font-medium transition"
+              className="bg-rose-50 dark:bg-stone-800 hover:bg-rose-100 dark:hover:bg-stone-700 text-stone-600 dark:text-stone-300 px-6 py-2 rounded-full text-sm font-medium transition"
             >
               Dashboard
             </button>
@@ -57,15 +60,15 @@ export default function Result() {
         </div>
 
         {/* Per-question breakdown */}
-        <h2 className="text-lg font-semibold">Question Breakdown</h2>
+        <h2 className="font-display text-lg font-semibold text-stone-800 dark:text-stone-100">Question Breakdown</h2>
         {questions.map((q, i) => (
-          <div key={q.id} className="bg-gray-900 rounded-2xl p-6 border border-gray-800 space-y-3">
+          <div key={q.id} className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-rose-100 dark:border-stone-800 shadow-sm dark:shadow-none space-y-3">
             <div className="flex items-start justify-between gap-4">
-              <p className="text-white font-medium">Q{i + 1}. {q.text}</p>
+              <p className="text-stone-800 dark:text-stone-100 font-medium">Q{i + 1}. {q.text}</p>
               {q.answer?.feedback && (
                 <span className={`shrink-0 text-lg font-bold ${
-                  q.answer.feedback.score >= 7 ? 'text-green-400' :
-                  q.answer.feedback.score >= 4 ? 'text-yellow-400' : 'text-red-400'
+                  q.answer.feedback.score >= 7 ? 'text-emerald-500' :
+                  q.answer.feedback.score >= 4 ? 'text-amber-500' : 'text-rose-500'
                 }`}>
                   {q.answer.feedback.score}/10
                 </span>
@@ -73,9 +76,9 @@ export default function Result() {
             </div>
 
             {q.answer && (
-              <div className="bg-gray-800 rounded-xl p-3">
-                <p className="text-gray-400 text-xs mb-1">Your answer</p>
-                <p className="text-gray-300 text-sm">{q.answer.text}</p>
+              <div className="bg-rose-50/60 dark:bg-stone-800 rounded-2xl p-3">
+                <p className="text-stone-400 dark:text-stone-500 text-xs mb-1">Your answer</p>
+                <p className="text-stone-600 dark:text-stone-300 text-sm">{q.answer.text}</p>
               </div>
             )}
 
@@ -83,21 +86,21 @@ export default function Result() {
               <>
                 {q.answer.feedback.problems?.length > 0 && (
                   <div>
-                    <p className="text-red-400 text-xs mb-1">Issues</p>
+                    <p className="text-rose-500 dark:text-rose-400 text-xs mb-1">Issues</p>
                     {q.answer.feedback.problems.map((p, j) => (
-                      <p key={j} className="text-gray-300 text-sm">✗ {p}</p>
+                      <p key={j} className="text-stone-600 dark:text-stone-300 text-sm">✗ {p}</p>
                     ))}
                   </div>
                 )}
                 <div>
-                  <p className="text-green-400 text-xs mb-1">Ideal answer</p>
-                  <p className="text-gray-300 text-sm">{q.answer.feedback.correct_answer}</p>
+                  <p className="text-emerald-500 dark:text-emerald-400 text-xs mb-1">Ideal answer</p>
+                  <p className="text-stone-600 dark:text-stone-300 text-sm">{q.answer.feedback.correct_answer}</p>
                 </div>
               </>
             )}
           </div>
         ))}
       </div>
-    </div>
+    </Layout>
   )
 }
