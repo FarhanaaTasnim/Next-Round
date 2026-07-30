@@ -3,14 +3,16 @@ import logging
 from datetime import timedelta
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import InterviewSession, Question, Answer, Feedback
 from .serializers import (
     InterviewSessionSerializer,
+    InterviewSessionListSerializer,
     StartInterviewSerializer,
     SubmitAnswerSerializer,
     QuestionSerializer,
@@ -156,14 +158,21 @@ class CompleteInterviewView(APIView):
         )
 
 
-class InterviewHistoryView(APIView):
-    permission_classes = [IsAuthenticated]
+class InterviewHistoryPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 50
 
-    def get(self, request):
-        sessions = InterviewSession.objects.filter(
-            user=request.user
+
+class InterviewHistoryView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = InterviewSessionListSerializer
+    pagination_class = InterviewHistoryPagination
+
+    def get_queryset(self):
+        return InterviewSession.objects.filter(
+            user=self.request.user
         ).order_by('-created_at')
-        return Response(InterviewSessionSerializer(sessions, many=True).data)
 
 
 class InterviewDetailView(APIView):

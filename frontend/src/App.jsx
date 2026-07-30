@@ -3,6 +3,7 @@ import Home from './pages/Home'
 import Register from './pages/auth/Register'
 import Login from './pages/auth/Login'
 import Dashboard from './pages/Dashboard'
+import History from './pages/History'
 import InterviewSetup from './pages/InterviewSetup'
 import InterviewRoom from './pages/InterviewRoom'
 import Result from './pages/Result'
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+        <Route path="/history" element={<PrivateRoute><History /></PrivateRoute>} />
         <Route path="/setup" element={<PrivateRoute><InterviewSetup /></PrivateRoute>} />
         <Route path="/interview/:sessionId" element={<PrivateRoute><InterviewRoom /></PrivateRoute>} />
         <Route path="/result/:sessionId" element={<PrivateRoute><Result /></PrivateRoute>} />

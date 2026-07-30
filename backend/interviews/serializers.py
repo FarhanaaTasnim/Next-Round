@@ -40,6 +40,22 @@ class InterviewSessionSerializer(serializers.ModelSerializer):
         return obj.questions.count()
 
 
+class InterviewSessionListSerializer(serializers.ModelSerializer):
+    """Lightweight serializer for history lists — no nested questions/answers/feedback."""
+    question_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = InterviewSession
+        fields = [
+            'id', 'role', 'difficulty', 'company', 'status',
+            'total_score', 'created_at', 'completed_at',
+            'question_count'
+        ]
+
+    def get_question_count(self, obj):
+        return obj.questions.count()
+
+
 class StartInterviewSerializer(serializers.Serializer):
     role = serializers.ChoiceField(choices=[
         'backend', 'frontend', 'django', 'sqa', 'data', 'software'

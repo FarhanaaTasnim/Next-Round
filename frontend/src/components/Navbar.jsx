@@ -24,6 +24,9 @@ export default function Navbar() {
               <Link to="/setup" className="text-sm font-medium text-stone-600 dark:text-stone-300 hover:text-rose-500 dark:hover:text-rose-400 transition px-2 py-1">
                 New Interview
               </Link>
+              <Link to="/history" className="text-sm font-medium text-stone-600 dark:text-stone-300 hover:text-rose-500 dark:hover:text-rose-400 transition px-2 py-1">
+                History
+              </Link>
               <div className="w-px h-5 bg-rose-100 dark:bg-stone-800 mx-1 hidden sm:block" />
               <span className="hidden sm:block text-sm text-stone-500 dark:text-stone-400">{user.username}</span>
               <button
